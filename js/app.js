@@ -7,7 +7,7 @@ var allProducts = [];
 var randomProducts = [];
 
 // create const maxclickcounter
-const MAXCLICKCOUNTER = 25;
+const MAXCLICKCOUNTER = 5;
 
 // create counter of user clicks
 var clickCounter = 0;
@@ -86,7 +86,7 @@ function get3ProductsAndRender() {
 // create fx clicknumber
 function clickManager(event) {
   clickCounter++;
-  if (clickCounter < MAXCLICKCOUNTER) {
+  if (clickCounter <= MAXCLICKCOUNTER) {
     var randomProductIndex;
 
     if (event.target.id === 'placeholder-0') {
@@ -96,19 +96,40 @@ function clickManager(event) {
     } else if (event.target.id === 'placeholder-2') {
       randomProductIndex = 2;
     } else {
-      alert('click on the pics you jerk');
+      alert('click on the pictures!');
     }
 
     var clickedProduct = allProducts[randomProducts[randomProductIndex]];
     clickedProduct.markAsClicked();
-
     get3ProductsAndRender();
-
   } else {
-    alert('game over, chart to be displayed here?');
+    renderResults();
   }
 }
 
+
+// add event listeners to each placeholder
+placeholder0.addEventListener('click', clickManager);
+placeholder1.addEventListener('click', clickManager);
+placeholder2.addEventListener('click', clickManager);
+
+
+function renderResults() {
+  var resultsDiv = document.getElementById('results');
+  var resultsList = document.createElement('ul');
+  for (var i = 0; i < allProducts.length; i++) {
+    var resultsLi = document.createElement('li');
+    resultsLi.textContent = `${allProducts[i].name} had ${allProducts[i].timesClicked} votes and was shown ${allProducts[i].timesDisplayed} times.`
+    resultsList.append(resultsLi);
+  }
+  resultsDiv.append(resultsList);
+}
+
+
+
+
+
+
 get3ProductsAndRender();
-clickManager();
-// create
+// clickManager();
+// renderResults();

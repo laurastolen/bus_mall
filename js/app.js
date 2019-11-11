@@ -6,8 +6,11 @@ var allProducts = [];
 // create array to store the random selection of 3 products
 var randomProducts = [];
 
-//create const maxclickcounter
+// create const maxclickcounter
 const MAXCLICKCOUNTER = 25;
+
+// create counter of user clicks
+var clickCounter = 0;
 
 // create constructor fx for products
 var Product = function (name, image) {
@@ -60,7 +63,52 @@ function getRandomIndex() {
 }
 
 // create fx to select3objectindicesandrender
+function get3ProductsAndRender() {
+  randomProducts = [];
+  // we want to display an array of *3* random products
+  while (randomProducts.length < 3) {
+    var nextRandomNum = getRandomIndex();
+    if (!randomProducts.includes(nextRandomNum)) {
+      randomProducts.push(nextRandomNum);
+    }
+  }
+  // invariance: at this point we have an array of 3 random object indices
+  // we need to increase each object's timeDisplayed:
+  for (var i = 0; i < randomProducts.length; i++) {
+    allProducts[randomProducts[i]].timesDisplayed++;
+  }
+
+  allProducts[randomProducts[0]].render(placeholder0);
+  allProducts[randomProducts[1]].render(placeholder1);
+  allProducts[randomProducts[2]].render(placeholder2);
+}
 
 // create fx clicknumber
+function clickManager(event) {
+  clickCounter++;
+  if (clickCounter < MAXCLICKCOUNTER) {
+    var randomProductIndex;
 
-// create 
+    if (event.target.id === 'placeholder-0') {
+      randomProductIndex = 0;
+    } else if (event.target.id === 'placeholder-1') {
+      randomProductIndex = 1;
+    } else if (event.target.id === 'placeholder-2') {
+      randomProductIndex = 2;
+    } else {
+      alert('click on the pics you jerk');
+    }
+
+    var clickedProduct = allProducts[randomProducts[randomProductIndex]];
+    clickedProduct.markAsClicked();
+
+    get3ProductsAndRender();
+
+  } else {
+    alert('game over, chart to be displayed here?');
+  }
+}
+
+get3ProductsAndRender();
+clickManager();
+// create

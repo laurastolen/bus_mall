@@ -1,2 +1,7 @@
 @import url(reset.css);
 
+img {
+  float: left;
+  width: 30%;
+  margin: 10px;
+}

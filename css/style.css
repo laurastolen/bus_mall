@@ -1,20 +1,49 @@
 @import url(reset.css);
 
-img {
+* {
+  box-sizing: border-box;
+}
+body {
+  width: 90%;
+  background: radial-gradient(#40b840, #ae3390);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin: 0 auto;
+}
+
+header {
+  width: 100%;
+  height: 150px;
+}
+
+#logo {
   float: left;
-  width: 30%;
+  margin: 15px;
+}
+
+h1 {
+  float: left;
+  font-size: 3em;
+}
+
+div img {
+  float: left;
+  max-width: 30%;
+  /* max-height: 250px; */
   margin: 1.6%;
   border-radius: 5px;
 }
 
-#results {
+div#photos {
+  height: 100%;
+}
+
+li {
   list-style-type: square;
   text-indent: 10%;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   line-height: 1.5em;
 }
 
-body {
-  background: radial-gradient(#40b840, #ae3390);
+#results {
+  display: block;
 }
 

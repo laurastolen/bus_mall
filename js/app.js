@@ -7,7 +7,7 @@ var allProducts = [];
 var randomProducts = [];
 
 // create const maxclickcounter
-const MAXCLICKCOUNTER = 25;
+const MAXCLICKCOUNTER = 5;
 
 // create counter of user clicks
 var clickCounter = 0;
@@ -52,10 +52,30 @@ var usb = new Product('usb', './img/usb.gif');
 var watercan = new Product('water-can', './img/water-can.jpg');
 var wineglass = new Product('wine-glass', './img/wine-glass.jpg');
 
+
+
+
 // create domref
+// trying to create a loop to make this display any number of images
+// previously just had the following three lines:
 var placeholder0 = document.getElementById('placeholder-0');
 var placeholder1 = document.getElementById('placeholder-1');
 var placeholder2 = document.getElementById('placeholder-2');
+
+
+var numToDisplay = 3;
+// var placeholderArray = [];
+// for (var i = 0; i < numToDisplay; i++) {
+//   var imageDiv = document.createElement('div');
+//   imageDiv.innerHTML = '<img id="' + i + '" src="" alt="">';
+//   var placeholder = document.getElementById('i');
+//   console.log(placeholder);
+//   placeholderArray.push(placeholder);
+// }
+
+
+
+
 
 // create fx to generate rando from 0-49
 function getRandomIndex() {
@@ -66,14 +86,14 @@ function getRandomIndex() {
 function get3ProductsAndRender() {
   randomProducts = [];
   // we want to display an array of *3* random products
-  while (randomProducts.length < 3) {
+  while (randomProducts.length < numToDisplay) {
     var nextRandomNum = getRandomIndex();
     if (!randomProducts.includes(nextRandomNum)) {
       randomProducts.push(nextRandomNum);
     }
   }
   // invariance: at this point we have an array of 3 random object indices
-  // we need to increase each object's timeDisplayed:
+  // we need to increase each object's timesDisplayed:
   for (var i = 0; i < randomProducts.length; i++) {
     allProducts[randomProducts[i]].timesDisplayed++;
   }
@@ -81,6 +101,10 @@ function get3ProductsAndRender() {
   allProducts[randomProducts[0]].render(placeholder0);
   allProducts[randomProducts[1]].render(placeholder1);
   allProducts[randomProducts[2]].render(placeholder2);
+  // // try as a loop:
+  // for (var i = 0; i < numToDisplay; i++) {
+  //   allProducts[randomProducts[i]].render(placeholderArray[i]);
+  // }
 }
 
 // create fx clicknumber

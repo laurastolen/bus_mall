@@ -7,7 +7,7 @@ var allProducts = [];
 var randomProducts = [];
 
 // create const maxclickcounter
-const MAXCLICKCOUNTER = 5;
+const MAXCLICKCOUNTER = 10;
 
 // create counter of user clicks
 var clickCounter = 0;
@@ -165,10 +165,12 @@ get3ProductsAndRender();
 function createResultsChart() {
   var productsArray = [];
   var clickArray = [];
+  var shownArray = [];
 
   for (var i = 0; i < allProducts.length; i++) {
-    productsArray.push(allProducts[i]);
+    productsArray.push(allProducts[i].name);
     clickArray.push(allProducts[i].timesClicked);
+    shownArray.push(allProducts[i].push);
   }
 
   var context = document.getElementById('chart').getContext('2d');
@@ -180,12 +182,15 @@ function createResultsChart() {
         {
           label: 'Product Clicks',
           data: clickArray,
-          backgroundColor: 'rgb(255,99,132)',
-          borderColor: 'rgb(255,99,132)',
+          backgroundColor: 'rgb(55,99,132)',
+          borderColor: 'rgb(255,299,132)',
+          color: 'rbg(0,0,0,)',
         },
         {
-          label: 'Product Clicks',
-          data: clickArray,
+          label: 'Number of Times Product Shown',
+          data: shownArray,
+          backgroundColor: 'rgb(0,15,299)',
+          borderColor: 'rgb(100,20,35)',
         }
       ],
     },

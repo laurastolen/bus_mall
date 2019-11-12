@@ -7,7 +7,7 @@ var allProducts = [];
 var randomProducts = [];
 
 // create const maxclickcounter
-const MAXCLICKCOUNTER = 5;
+const MAXCLICKCOUNTER = 25;
 
 // create counter of user clicks
 var clickCounter = 0;
@@ -107,29 +107,18 @@ function clickManager(event) {
   }
 }
 
-
 // add event listeners to each placeholder
 placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
 
-
 function renderResults() {
-  var resultsDiv = document.getElementById('results');
-  var resultsList = document.createElement('ul');
+  var resultsList = document.getElementById('results');
   for (var i = 0; i < allProducts.length; i++) {
     var resultsLi = document.createElement('li');
-    resultsLi.textContent = `${allProducts[i].name} had ${allProducts[i].timesClicked} votes and was shown ${allProducts[i].timesDisplayed} times.`
+    resultsLi.textContent = `${allProducts[i].name} had ${allProducts[i].timesClicked} votes and was shown ${allProducts[i].timesDisplayed} times.`;
     resultsList.append(resultsLi);
   }
-  resultsDiv.append(resultsList);
 }
 
-
-
-
-
-
 get3ProductsAndRender();
-// clickManager();
-// renderResults();

@@ -3,5 +3,18 @@
 img {
   float: left;
   width: 30%;
-  margin: 10px;
+  margin: 1.6%;
+  border-radius: 5px;
 }
+
+#results {
+  list-style-type: square;
+  text-indent: 10%;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  line-height: 1.5em;
+}
+
+body {
+  background: radial-gradient(#40b840, #ae3390);
+}
+

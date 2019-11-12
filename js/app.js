@@ -104,6 +104,9 @@ function clickManager(event) {
     get3ProductsAndRender();
   } else {
     renderResults();
+    placeholder0.removeEventListener('click', clickManager);
+    placeholder1.removeEventListener('click', clickManager);
+    placeholder2.removeEventListener('click', clickManager);
   }
 }
 

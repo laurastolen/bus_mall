@@ -84,6 +84,7 @@ function getRandomIndex() {
 
 // create fx to select3objectindicesandrender
 function get3ProductsAndRender() {
+  // var tempArray = [];
   randomProducts = [];
   // we want to display an array of *3* random products
   while (randomProducts.length < numToDisplay) {
@@ -92,19 +93,22 @@ function get3ProductsAndRender() {
       randomProducts.push(nextRandomNum);
     }
   }
+  // tempArray = randomProducts;
   // invariance: at this point we have an array of 3 random object indices
   // we need to increase each object's timesDisplayed:
   for (var i = 0; i < randomProducts.length; i++) {
     allProducts[randomProducts[i]].timesDisplayed++;
   }
-
   allProducts[randomProducts[0]].render(placeholder0);
   allProducts[randomProducts[1]].render(placeholder1);
   allProducts[randomProducts[2]].render(placeholder2);
-  // // try as a loop:
-  // for (var i = 0; i < numToDisplay; i++) {
-  //   allProducts[randomProducts[i]].render(placeholderArray[i]);
-  // }
+  // // try as a loop instead to correspond with looped placeholder:
+  //   for (var j = 0; i < numToDisplay; j++) {
+  //     allProducts[randomProducts[j]].render(placeholderArray[j]);
+  //   }
+
+
+  // return tempArray;
 }
 
 // create fx clicknumber
@@ -123,11 +127,15 @@ function clickManager(event) {
       alert('click on the pictures!');
     }
 
+    // var idOfClickedPic = event.target.id
+
     var clickedProduct = allProducts[randomProducts[randomProductIndex]];
     clickedProduct.markAsClicked();
     get3ProductsAndRender();
   } else {
-    renderResults();
+    // this is where you want to display your chart (ish)
+    // renderResults();
+    createResultsChart();
     placeholder0.removeEventListener('click', clickManager);
     placeholder1.removeEventListener('click', clickManager);
     placeholder2.removeEventListener('click', clickManager);
@@ -149,3 +157,48 @@ function renderResults() {
 }
 
 get3ProductsAndRender();
+
+
+// ------------------chart
+// create a createChart fx which contains a chart constructor fx
+//create one like demo code, then if time use inspect source on chartjs site to make fancier chart ie add more objects
+function createResultsChart() {
+  var productsArray = [];
+  var clickArray = [];
+
+  for (var i = 0; i < allProducts.length; i++) {
+    productsArray.push(allProducts[i]);
+    clickArray.push(allProducts[i].timesClicked);
+  }
+
+  var context = document.getElementById('chart').getContext('2d');
+  var resultsChart = new Chart(context, {
+    type: 'bar',
+    data: {
+      labels: productsArray,
+      datasets: [
+        {
+          label: 'Product Clicks',
+          data: clickArray,
+          backgroundColor: 'rgb(255,99,132)',
+          borderColor: 'rgb(255,99,132)',
+        },
+        {
+          label: 'Product Clicks',
+          data: clickArray,
+        }
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            }
+          },
+        ],
+      }
+    },
+  });
+}

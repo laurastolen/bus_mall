@@ -181,6 +181,7 @@ function createResultsChart() {
   }
 
   var context = document.getElementById('chart').getContext('2d');
+  Chart.defaults.global.defaultFontColor = 'black';
   var resultsChart = new Chart(context, {
     type: 'bar',
     data: {
@@ -188,18 +189,21 @@ function createResultsChart() {
       datasets: [
         {
           label: 'Product Clicks',
+          yAxisID: 'A',
           data: clickArray,
           backgroundColor: 'rgb(255,99,132)',
           borderColor: 'rgb(255,299,132)',
         },
         {
-          label: 'Number of Times Product Shown',
+          label: 'Number of Times Shown',
+          yAxisID: 'A',
           data: shownArray,
           backgroundColor: 'rgb(0,15,299)',
           borderColor: 'rgb(100,20,35)',
         },
         {
           label: 'Overall Success Rate',
+          yAxisID: 'B',
           data: percentClicked,
           backgroundColor: 'rgb(20,200,100)',
           borderColor: 'rgb(300,200,100)',
@@ -208,14 +212,46 @@ function createResultsChart() {
     },
     options: {
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            }
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Product Name',
           },
+          gridLines: {
+            display: false,
+          },
+        }],
+        yAxes: [{
+          gridLines: {
+            display: false,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Times Shown and Clicked',
+          },
+          id: 'A',
+          type: 'linear',
+          position: 'left',
+          ticks: {
+            max: 8,
+            min: 0,
+          },
+        }, {
+          scaleLabel: {
+            display: true,
+            labelString: 'Total Success Rate',
+          },
+          id: 'B',
+          type: 'linear',
+          position: 'right',
+          ticks: {
+            max: 100,
+            min: 0,
+          },
+        }
         ],
-      }
+
+      },
     },
   });
 }

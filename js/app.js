@@ -7,7 +7,7 @@ var allProducts = [];
 var randomProducts = [];
 
 // create const maxclickcounter
-const MAXCLICKCOUNTER = 10;
+const MAXCLICKCOUNTER = 6;
 
 // create counter of user clicks
 var clickCounter = 0;
@@ -18,6 +18,11 @@ var Product = function (name, image) {
   this.image = image;
   this.timesClicked = 0;
   this.timesDisplayed = 0;
+  // this.successRate = this.calcPercent();
+  // this.calcPercent = function () {
+  //   var percentClicked = 100 * (this.timesClicked / this.timesDisplayed);
+  //   return percentClicked;
+  // };
 
   this.markAsClicked = function () {
     this.timesClicked++;
@@ -133,12 +138,15 @@ function clickManager(event) {
     clickedProduct.markAsClicked();
     get3ProductsAndRender();
   } else {
-    // this is where you want to display your chart (ish)
-    // renderResults();
-    createResultsChart();
+    // for(var i = 0; i < allProducts.length; i++) {
+    //   percentClicked allProducts[i].successRate;
+
+    // }
+
     placeholder0.removeEventListener('click', clickManager);
     placeholder1.removeEventListener('click', clickManager);
     placeholder2.removeEventListener('click', clickManager);
+    createResultsChart();
   }
 }
 
@@ -147,7 +155,8 @@ placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
 
-function renderResults() {
+// we are no longer calling this function -- using chart instead
+function renderResultsList() {
   var resultsList = document.getElementById('results');
   for (var i = 0; i < allProducts.length; i++) {
     var resultsLi = document.createElement('li');
@@ -158,19 +167,17 @@ function renderResults() {
 
 get3ProductsAndRender();
 
-
-// ------------------chart
-// create a createChart fx which contains a chart constructor fx
-//create one like demo code, then if time use inspect source on chartjs site to make fancier chart ie add more objects
 function createResultsChart() {
   var productsArray = [];
   var clickArray = [];
   var shownArray = [];
+  var percentClicked = [];
 
   for (var i = 0; i < allProducts.length; i++) {
     productsArray.push(allProducts[i].name);
     clickArray.push(allProducts[i].timesClicked);
-    shownArray.push(allProducts[i].push);
+    shownArray.push(allProducts[i].timesDisplayed);
+    percentClicked.push((allProducts[i].timesClicked) / (allProducts[i].timesDisplayed) * 100);
   }
 
   var context = document.getElementById('chart').getContext('2d');
@@ -182,15 +189,20 @@ function createResultsChart() {
         {
           label: 'Product Clicks',
           data: clickArray,
-          backgroundColor: 'rgb(55,99,132)',
+          backgroundColor: 'rgb(255,99,132)',
           borderColor: 'rgb(255,299,132)',
-          color: 'rbg(0,0,0,)',
         },
         {
           label: 'Number of Times Product Shown',
           data: shownArray,
           backgroundColor: 'rgb(0,15,299)',
           borderColor: 'rgb(100,20,35)',
+        },
+        {
+          label: 'Overall Success Rate',
+          data: percentClicked,
+          backgroundColor: 'rgb(20,200,100)',
+          borderColor: 'rgb(300,200,100)',
         }
       ],
     },

@@ -1,5 +1,7 @@
 'use strict';
 
+var localProductData = 'localProductData';
+
 // create array to store all the products
 var allProducts = [];
 
@@ -13,9 +15,9 @@ const MAXCLICKCOUNTER = 5;
 var clickCounter = 0;
 
 // create constructor fx for products
-var Product = function (name, image) {
+var Product = function (name, picture) {
   this.name = name;
-  this.image = image;
+  this.picture = picture;
   this.timesClicked = 0;
   this.timesDisplayed = 0;
 
@@ -24,34 +26,71 @@ var Product = function (name, image) {
   };
 
   this.render = function (domRef) {
-    domRef.src = image;
+    domRef.src = this.picture;
   };
-
-  allProducts.push(this);
+  this.loadData = function (data) {
+    //data will be a pre-parsed object
+    this.timesClicked = data.timesClicked;
+    this.timesDisplayed = data.timesDisplayed;
+    this.name = data.name;
+    this.picture = data.picture;
+  };
 };
 
-// create all the new instances
-var bag = new Product('bag', './img/bag.jpg');
-var banana = new Product('banana', './img/banana.jpg');
-var bathroom = new Product('bathroom', './img/bathroom.jpg');
-var boots = new Product('boots', './img/boots.jpg');
-var breakfast = new Product('breakfast', './img/breakfast.jpg');
-var bubblegum = new Product('bubblegum', './img/bubblegum.jpg');
-var chair = new Product('chair', './img/chair.jpg');
-var cthulhu = new Product('cthulhu', './img/cthulhu.jpg');
-var dogduck = new Product('dog-duck', './img/dog-duck.jpg');
-var dragon = new Product('dragon', './img/dragon.jpg');
-var pen = new Product('pen', './img/pen.jpg');
-var petsweep = new Product('pet-sweep', './img/pet-sweep.jpg');
-var scissors = new Product('scissors', './img/scissors.jpg');
-var shark = new Product('shark', './img/shark.jpg');
-var sweep = new Product('sweep', './img/sweep.png');
-var tauntaun = new Product('tauntaun', './img/tauntaun.jpg');
-var unicorn = new Product('unicorn', './img/unicorn.jpg');
-var usb = new Product('usb', './img/usb.gif');
-var watercan = new Product('water-can', './img/water-can.jpg');
-var wineglass = new Product('wine-glass', './img/wine-glass.jpg');
+// create all the new instances if nothing in local storage:
+if (localStorage.getItem(localProductData) === null) {
+  var bag = new Product('bag', './img/bag.jpg');
+  var banana = new Product('banana', './img/banana.jpg');
+  var bathroom = new Product('bathroom', './img/bathroom.jpg');
+  var boots = new Product('boots', './img/boots.jpg');
+  var breakfast = new Product('breakfast', './img/breakfast.jpg');
+  var bubblegum = new Product('bubblegum', './img/bubblegum.jpg');
+  var chair = new Product('chair', './img/chair.jpg');
+  var cthulhu = new Product('cthulhu', './img/cthulhu.jpg');
+  var dogduck = new Product('dog-duck', './img/dog-duck.jpg');
+  var dragon = new Product('dragon', './img/dragon.jpg');
+  var pen = new Product('pen', './img/pen.jpg');
+  var petsweep = new Product('pet-sweep', './img/pet-sweep.jpg');
+  var scissors = new Product('scissors', './img/scissors.jpg');
+  var shark = new Product('shark', './img/shark.jpg');
+  var sweep = new Product('sweep', './img/sweep.png');
+  var tauntaun = new Product('tauntaun', './img/tauntaun.jpg');
+  var unicorn = new Product('unicorn', './img/unicorn.jpg');
+  var usb = new Product('usb', './img/usb.gif');
+  var watercan = new Product('water-can', './img/water-can.jpg');
+  var wineglass = new Product('wine-glass', './img/wine-glass.jpg');
 
+  allProducts.push(bag);
+  allProducts.push(banana);
+  allProducts.push(bathroom);
+  allProducts.push(boots);
+  allProducts.push(breakfast);
+  allProducts.push(bubblegum);
+  allProducts.push(chair);
+  allProducts.push(cthulhu);
+  allProducts.push(dogduck);
+  allProducts.push(dragon);
+  allProducts.push(pen);
+  allProducts.push(petsweep);
+  allProducts.push(scissors);
+  allProducts.push(shark);
+  allProducts.push(sweep);
+  allProducts.push(tauntaun);
+  allProducts.push(unicorn);
+  allProducts.push(usb);
+  allProducts.push(watercan);
+  allProducts.push(wineglass);
+} else {
+  // need to get data from localdatastorage, parse into objects, and load into allproducts array
+  var jsonData = localStorage.getItem(localProductData);
+  var data = JSON.parse(jsonData);
+
+  for (var i = 0; i < data.length; i++) {
+    var newProduct = new Product('', '');
+    newProduct.loadData(data[i]);
+    allProducts.push(newProduct);
+  }
+}
 
 
 
@@ -115,13 +154,22 @@ function clickManager(event) {
 
     var clickedProduct = allProducts[randomProducts[randomProductIndex]];
     clickedProduct.markAsClicked();
+
     get3ProductsAndRender();
   } else {
+
     placeholder0.removeEventListener('click', clickManager);
     placeholder1.removeEventListener('click', clickManager);
     placeholder2.removeEventListener('click', clickManager);
+    saveDataLocally();
     createResultsChart();
   }
+}
+
+function saveDataLocally() {
+  var jsonData = JSON.stringify(allProducts);
+  // this is what saves things into local storage:
+  localStorage.setItem(localProductData, jsonData);
 }
 
 // add event listeners to each placeholder

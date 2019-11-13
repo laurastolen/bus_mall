@@ -59,7 +59,7 @@ var wineglass = new Product('wine-glass', './img/wine-glass.jpg');
 var placeholder0 = document.getElementById('placeholder-0');
 var placeholder1 = document.getElementById('placeholder-1');
 var placeholder2 = document.getElementById('placeholder-2');
-
+var body = document.getElementById('body');
 
 // create fx to generate rando from 0-49
 function getRandomIndex() {

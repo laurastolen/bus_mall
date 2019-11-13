@@ -91,6 +91,7 @@ function get3ProductsAndRender() {
   allProducts[randomProducts[1]].render(placeholder1);
   allProducts[randomProducts[2]].render(placeholder2);
   tempArray = randomProducts;
+  return tempArray;
 }
 
 // create fx clicknumber

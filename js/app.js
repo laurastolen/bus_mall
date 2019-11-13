@@ -7,7 +7,7 @@ var allProducts = [];
 var randomProducts = [];
 
 // create const maxclickcounter
-const MAXCLICKCOUNTER = 6;
+const MAXCLICKCOUNTER = 5;
 
 // create counter of user clicks
 var clickCounter = 0;
@@ -18,11 +18,6 @@ var Product = function (name, image) {
   this.image = image;
   this.timesClicked = 0;
   this.timesDisplayed = 0;
-  // this.successRate = this.calcPercent();
-  // this.calcPercent = function () {
-  //   var percentClicked = 100 * (this.timesClicked / this.timesDisplayed);
-  //   return percentClicked;
-  // };
 
   this.markAsClicked = function () {
     this.timesClicked++;
@@ -61,25 +56,9 @@ var wineglass = new Product('wine-glass', './img/wine-glass.jpg');
 
 
 // create domref
-// trying to create a loop to make this display any number of images
-// previously just had the following three lines:
 var placeholder0 = document.getElementById('placeholder-0');
 var placeholder1 = document.getElementById('placeholder-1');
 var placeholder2 = document.getElementById('placeholder-2');
-
-
-var numToDisplay = 3;
-// var placeholderArray = [];
-// for (var i = 0; i < numToDisplay; i++) {
-//   var imageDiv = document.createElement('div');
-//   imageDiv.innerHTML = '<img id="' + i + '" src="" alt="">';
-//   var placeholder = document.getElementById('i');
-//   console.log(placeholder);
-//   placeholderArray.push(placeholder);
-// }
-
-
-
 
 
 // create fx to generate rando from 0-49
@@ -88,13 +67,16 @@ function getRandomIndex() {
 }
 
 // create fx to select3objectindicesandrender
+var tempArray = [];
+
 function get3ProductsAndRender() {
-  // var tempArray = [];
   randomProducts = [];
+
   // we want to display an array of *3* random products
-  while (randomProducts.length < numToDisplay) {
+  while (randomProducts.length < 3) {
     var nextRandomNum = getRandomIndex();
-    if (!randomProducts.includes(nextRandomNum)) {
+
+    if (!randomProducts.includes(nextRandomNum) && !tempArray.includes(nextRandomNum)) {
       randomProducts.push(nextRandomNum);
     }
   }
@@ -104,45 +86,36 @@ function get3ProductsAndRender() {
   for (var i = 0; i < randomProducts.length; i++) {
     allProducts[randomProducts[i]].timesDisplayed++;
   }
+
   allProducts[randomProducts[0]].render(placeholder0);
   allProducts[randomProducts[1]].render(placeholder1);
   allProducts[randomProducts[2]].render(placeholder2);
-  // // try as a loop instead to correspond with looped placeholder:
-  //   for (var j = 0; i < numToDisplay; j++) {
-  //     allProducts[randomProducts[j]].render(placeholderArray[j]);
-  //   }
-
-
-  // return tempArray;
+  tempArray = randomProducts;
 }
 
 // create fx clicknumber
 function clickManager(event) {
-  clickCounter++;
-  if (clickCounter <= MAXCLICKCOUNTER) {
+
+  if (clickCounter < MAXCLICKCOUNTER) {
     var randomProductIndex;
 
     if (event.target.id === 'placeholder-0') {
+      clickCounter++;
       randomProductIndex = 0;
     } else if (event.target.id === 'placeholder-1') {
+      clickCounter++;
       randomProductIndex = 1;
     } else if (event.target.id === 'placeholder-2') {
+      clickCounter++;
       randomProductIndex = 2;
-    } else {
-      alert('click on the pictures!');
+    } else if (event.target.tagName !== 'IMG') {
+      alert('Click on the pictures, loser!');
     }
-
-    // var idOfClickedPic = event.target.id
 
     var clickedProduct = allProducts[randomProducts[randomProductIndex]];
     clickedProduct.markAsClicked();
     get3ProductsAndRender();
   } else {
-    // for(var i = 0; i < allProducts.length; i++) {
-    //   percentClicked allProducts[i].successRate;
-
-    // }
-
     placeholder0.removeEventListener('click', clickManager);
     placeholder1.removeEventListener('click', clickManager);
     placeholder2.removeEventListener('click', clickManager);
@@ -154,8 +127,9 @@ function clickManager(event) {
 placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
+body.addEventListener('click', clickManager);
 
-// we are no longer calling this function -- using chart instead
+// we are no longer using this function -- using canvas chart instead
 function renderResultsList() {
   var resultsList = document.getElementById('results');
   for (var i = 0; i < allProducts.length; i++) {

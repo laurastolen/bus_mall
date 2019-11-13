@@ -12,7 +12,7 @@ var randomProducts = [];
 var clickCounter = 0;
 
 // create const maxclickcounter
-const MAXCLICKCOUNTER = 5;
+const MAXCLICKCOUNTER = 25;
 
 // create constructor fx for products
 var Product = function (name, picture) {
@@ -135,24 +135,18 @@ function get3ProductsAndRender() {
 
 // create fx clicknumber
 function clickManager(event) {
-  console.log(clickCounter);
+  clickCounter++;
+
   if (clickCounter < MAXCLICKCOUNTER) {
     var randomProductIndex;
 
     if (event.target.id === 'placeholder-0') {
       randomProductIndex = 0;
-      clickCounter++;
     } else if (event.target.id === 'placeholder-1') {
-      clickCounter++;
       randomProductIndex = 1;
     } else if (event.target.id === 'placeholder-2') {
-      clickCounter++;
       randomProductIndex = 2;
-    } else {
-      // clickCounter--;
-      alert('Click on the pictures, loser!');
     }
-
 
     var clickedProduct = allProducts[randomProducts[randomProductIndex]];
     clickedProduct.markAsClicked();
@@ -168,6 +162,12 @@ function clickManager(event) {
   }
 }
 
+function bodyClickManager(event) {
+  if (event.target.nodeName !== 'IMG') {
+    alert('OMG would you please just click on the pictures!!');
+  }
+}
+
 function saveDataLocally() {
   var jsonData = JSON.stringify(allProducts);
   // this is what saves things into local storage:
@@ -178,7 +178,7 @@ function saveDataLocally() {
 placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
-// body.addEventListener('click', clickManager);
+body.addEventListener('click', bodyClickManager);
 
 // we are no longer using this function -- using canvas chart instead
 function renderResultsList() {

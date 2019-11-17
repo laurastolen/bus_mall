@@ -1,20 +1,11 @@
 'use strict';
 
 var localProductData = 'localProductData';
-
-// create array to store all the products
 var allProducts = [];
-
-// create array to store the random selection of 3 products
 var randomProducts = [];
-
-// create counter of user clicks
 var clickCounter = 0;
-
-// create const maxclickcounter
 const MAXCLICKCOUNTER = 25;
 
-// create constructor fx for products
 var Product = function (name, picture) {
   this.name = name;
   this.picture = picture;
@@ -24,12 +15,11 @@ var Product = function (name, picture) {
   this.markAsClicked = function () {
     this.timesClicked++;
   };
-
   this.render = function (domRef) {
     domRef.src = this.picture;
   };
   this.loadData = function (data) {
-    //data will be a pre-parsed object
+    // the argument we pass in to this method will be a pre-parsed object
     this.timesClicked = data.timesClicked;
     this.timesDisplayed = data.timesDisplayed;
     this.name = data.name;
@@ -37,7 +27,6 @@ var Product = function (name, picture) {
   };
 };
 
-// create all the new instances if nothing in local storage:
 if (localStorage.getItem(localProductData) === null) {
   var bag = new Product('bag', './img/bag.jpg');
   var banana = new Product('banana', './img/banana.jpg');
@@ -81,7 +70,6 @@ if (localStorage.getItem(localProductData) === null) {
   allProducts.push(watercan);
   allProducts.push(wineglass);
 } else {
-  // need to get data from localdatastorage, parse into objects, and load into allproducts array
   var jsonData = localStorage.getItem(localProductData);
   var data = JSON.parse(jsonData);
 
@@ -92,26 +80,20 @@ if (localStorage.getItem(localProductData) === null) {
   }
 }
 
-
-
-// create domref
 var placeholder0 = document.getElementById('placeholder-0');
 var placeholder1 = document.getElementById('placeholder-1');
 var placeholder2 = document.getElementById('placeholder-2');
 var body = document.getElementById('body');
 
-// create fx to generate rando from 0-49
 function getRandomIndex() {
   return Math.floor(Math.random() * (allProducts.length));
 }
 
-// create fx to select3objectindicesandrender
-var tempArray = [];
 
+var tempArray = [];
 function get3ProductsAndRender() {
   randomProducts = [];
 
-  // we want to display an array of *3* random products
   while (randomProducts.length < 3) {
     var nextRandomNum = getRandomIndex();
 
@@ -119,13 +101,9 @@ function get3ProductsAndRender() {
       randomProducts.push(nextRandomNum);
     }
   }
-  // tempArray = randomProducts;
-  // invariance: at this point we have an array of 3 random object indices
-  // we need to increase each object's timesDisplayed:
   for (var i = 0; i < randomProducts.length; i++) {
     allProducts[randomProducts[i]].timesDisplayed++;
   }
-
   allProducts[randomProducts[0]].render(placeholder0);
   allProducts[randomProducts[1]].render(placeholder1);
   allProducts[randomProducts[2]].render(placeholder2);
@@ -133,7 +111,6 @@ function get3ProductsAndRender() {
   return tempArray;
 }
 
-// create fx clicknumber
 function clickManager(event) {
   clickCounter++;
 
@@ -150,10 +127,8 @@ function clickManager(event) {
 
     var clickedProduct = allProducts[randomProducts[randomProductIndex]];
     clickedProduct.markAsClicked();
-
     get3ProductsAndRender();
   } else {
-
     placeholder0.removeEventListener('click', clickManager);
     placeholder1.removeEventListener('click', clickManager);
     placeholder2.removeEventListener('click', clickManager);
@@ -170,25 +145,23 @@ function bodyClickManager(event) {
 
 function saveDataLocally() {
   var jsonData = JSON.stringify(allProducts);
-  // this is what saves things into local storage:
   localStorage.setItem(localProductData, jsonData);
 }
 
-// add event listeners to each placeholder
 placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
 body.addEventListener('click', bodyClickManager);
 
-// we are no longer using this function -- using canvas chart instead
-function renderResultsList() {
-  var resultsList = document.getElementById('results');
-  for (var i = 0; i < allProducts.length; i++) {
-    var resultsLi = document.createElement('li');
-    resultsLi.textContent = `${allProducts[i].name} had ${allProducts[i].timesClicked} votes and was shown ${allProducts[i].timesDisplayed} times.`;
-    resultsList.append(resultsLi);
-  }
-}
+// this function was created for the first day of this lab, and it's no longer being used as we're using the chart instead
+// function renderResultsList() {
+//   var resultsList = document.getElementById('results');
+//   for (var i = 0; i < allProducts.length; i++) {
+//     var resultsLi = document.createElement('li');
+//     resultsLi.textContent = `${allProducts[i].name} had ${allProducts[i].timesClicked} votes and was shown ${allProducts[i].timesDisplayed} times.`;
+//     resultsList.append(resultsLi);
+//   }
+// }
 
 get3ProductsAndRender();
 

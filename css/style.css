@@ -28,13 +28,9 @@ h1 {
 div img {
   float: left;
   max-width: 30%;
-  /* max-height: 250px; */
+  border: 2px solid #131813;
   margin: 1.6%;
   border-radius: 5px;
-}
-
-div#photos {
-  height: 100%;
 }
 
 li {
